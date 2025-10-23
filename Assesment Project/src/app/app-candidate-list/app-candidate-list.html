@@ -1,0 +1,83 @@
+<h1>Candidates List</h1>
+<br/>
+<h2>Filters</h2>
+<br>
+  <ng-select [items]="filter1data"
+    placeholder="Select skills"
+    [(ngModel)]="selectedfilter1"
+    (change)="OnFilterSelect()">
+    
+  </ng-select>
+<br/>
+  <ng-select [items]="filter2data"
+    
+    placeholder="Select Sub Skills"
+    [(ngModel)]="selectedfilter2"
+    (change)="getdata()"
+    *ngIf="filter2data && filter2data.length>0">
+    
+  </ng-select>
+<br />
+  <ng-select
+    placeholder="Select Country"
+    [(ngModel)]="selectedCountry"
+    (change)="getState()"
+    [disabled]="Countries.length===0">
+    <ng-option *ngFor="let item of Countries" [value]="item.name" >{{item.name}}</ng-option>
+  </ng-select>
+<br />
+<br />
+  <ng-select
+    placeholder="Select State"
+    [(ngModel)]="selectedState"
+    (change)="getCity()" *ngIf="States.length>0">
+    <ng-option *ngFor="let item of States" [value]="item.name" >{{item.name}}</ng-option>
+  </ng-select>
+<br />
+<br />
+  <ng-select
+    placeholder="Select City"
+    [(ngModel)]="selectedCity"
+    (change)="getdata()" *ngIf="Cities.length>0">
+    <ng-option *ngFor="let item of Cities" [value]="item" >{{item}}</ng-option>
+  </ng-select>
+<br />
+<input style="float: right;" (keyup)="getdata()" placeholder="Search" id="search" value="" [(ngModel)]="searchValue" />
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Skills</th>
+    <th>Sub Skills</th>
+    <th>Experience in Year</th>
+    <th>Hiring Status</th>
+    <th>Country</th>
+    <th>State</th>
+    <th>City</th>
+  </tr>
+  <tr *ngFor="let item of results  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+    <td>{{ item.id }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.primary_skills }}</td>
+    <td>{{ item.secondary_skills }}</td>
+    <td>{{ item.experience }}</td>
+    <td>{{ item.status }}</td>
+    <td>{{ item.country }}</td>
+    <td>{{ item.state }}</td>
+    <td>{{ item.city }}</td>
+  </tr>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="col-auto">
+    <select
+      name="noOfRows"
+      id="noOfRows"
+      (change)="onTableSizeChange($event)"
+      class="form-select form-select-sm"
+    >
+      <option *ngFor="let size of tableSize" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+</div>
+  
